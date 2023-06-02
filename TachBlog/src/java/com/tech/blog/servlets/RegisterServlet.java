@@ -56,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
                 if (dao.saveUser(user)) {
                     out.println("done");
                 } else {
-                    out.println("Please fill all details.");
+                    out.println("Error");
                 }
             }
         }

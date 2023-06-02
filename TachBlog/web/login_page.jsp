@@ -1,4 +1,5 @@
 
+<%@page import="com.tech.blog.entities.msg"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +20,18 @@
                     <div class="col-md-4 offset-md-4">
                         <div class="card">
                             <div class="card-header text-center"><span class="fa fa fa-user-plus fa-2x"></span>  <h4>Login Here</h4></div>
+                            <%
+                                msg m = (msg) session.getAttribute("msg");
+                                if (m != null) {
+                            %>
+                            <div class="alert <%=m.getCssClass()%>" role="alert">
+                                <%= m.getContent() %>
+                            </div>
+
+                            <%
+                                session.removeAttribute("msg");
+                                }
+                            %>
                             <div class="card-body">
                                 <form action="LoginServlet" method="post">
                                     <div class="form-group">
