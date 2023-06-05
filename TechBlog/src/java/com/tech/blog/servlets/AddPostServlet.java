@@ -4,12 +4,11 @@
  */
 package com.tech.blog.servlets;
 
+import com.tech.blog.dao.PostDao;
+import com.tech.blog.entities.Post;
 import com.tech.blog.entities.User;
-import com.tech.blog.dao.UserDao;
-import com.tech.blog.entities.msg;
 import com.tech.blog.helper.ConnectionProvider;
 import com.tech.blog.helper.Helper;
-import com.tech.blog.servlets.EditServlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +25,7 @@ import javax.servlet.http.Part;
  * @author tanus
  */
 @MultipartConfig
-public class EditServlet extends HttpServlet {
+public class AddPostServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,64 +41,26 @@ public class EditServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EditServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-
-//            Fect All Data
-            String UserEmail = request.getParameter("user_email");
-            String UserName = request.getParameter("user_name");
-            String UserPassword = request.getParameter("user_password");
-            String UserAbout = request.getParameter("user_about");
-            Part part = request.getPart("profile");
-            String imageName = part.getSubmittedFileName();
-
-//            Get the user from the session
-            HttpSession s = request.getSession();
-            s.getAttribute("currentUser");
-            User user = (User) s.getAttribute("currentUser");
-
-            user.setAbout(UserAbout);
-            user.setEmail(UserEmail);
-            user.setPassword(UserPassword);
-            user.setName(UserName);
-            String oldFile = user.getProfile();
-            user.setProfile(imageName);
-
-//            Update DB
-            UserDao userDao = new UserDao(ConnectionProvider.getConnection());
-            boolean ans = userDao.UpdateUser(user);
-            if (ans) {
-                String Path = request.getRealPath("/") + "pics" + File.separator + user.getProfile();
-//                Delete code
-                String PathOldFile = request.getRealPath("/") + "pics" + File.separator + oldFile;
-//              
-                   if(!oldFile.equals("Profile.jpg")){
-                       Helper.deleteFile(PathOldFile);
-                   }
-                if (Helper.saveFile(part.getInputStream(), Path)) {
-                    msg m = new msg("Profile Details Updated ", "success", "alert-success");
-                    
-                    s.setAttribute("msg", m);
-                    
-                }
-                else{
-                    msg m = new msg("Something Went Wrong! Try again", "error", "alert-danger");
-                   
-                   s.setAttribute("msg", m);
-                }
-
-            } else {
-                msg m = new msg("Something Went Wrong! Try again", "error", "alert-danger");
-                   
-                   s.setAttribute("msg", m);
+            int cid = Integer.parseInt(request.getParameter("cid"));
+            String pTitle = request.getParameter("pTitle");
+            String pContent = request.getParameter("pContent");
+            String pCode = request.getParameter("pCode");
+            Part part = request.getPart("pic");
+//            getting current user
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("currentUser");
+            int userId = user.getId();
+            Post p = new Post(pTitle, pContent, pCode, part.getSubmittedFileName(),null, cid, userId);
+            PostDao dao = new PostDao(ConnectionProvider.getConnection());
+            if(dao.savePost(p)){
+                
+                String path = request.getRealPath("/") + "blog_pic" + File.separator + part.getSubmittedFileName();
+                Helper.saveFile(part.getInputStream(), path);
+                out.println("done");
             }
-            response.sendRedirect("profile.jsp");
-            out.println("</body>");
-            out.println("</html>");
+            else{
+                out.println("error");
+            }
         }
     }
 

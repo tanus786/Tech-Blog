@@ -1,4 +1,8 @@
 
+<%@page import="com.tech.blog.entities.Category"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.tech.blog.helper.ConnectionProvider"%>
+<%@page import="com.tech.blog.dao.PostDao"%>
 <%@page import="com.tech.blog.entities.msg"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.tech.blog.entities.User" %>
@@ -44,8 +48,13 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="register_page.jsp"><span class="fa fa-phone"></span>  CONTACT US</a>
+                        <a class="nav-link" href="#"><span class="fa fa-phone"></span>  CONTACT US</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle = "modal"data-target = "#add-post-modal"><span class="fa fa-paper-plane-o"></span>  Post</a>
+                    </li>
+
                 </ul>
                 <ul class="navbar-nav mr-right">
                     <a class="nav-link nav-item" href="#" data-toggle="modal" data-target="#profile-modal"> <span class="fa fa-user-circle-o"></span>  <%= user.getName()%></a>
@@ -168,28 +177,108 @@
 
         <!--end of  profile modal-->
 
+        <!--Post modal-->
+
+        <div class="modal fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Provide the Post details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-post-form" action="AddPostServlet" method="post">
+                            <div class="form-group">
+                                <select class="form-control" name = "cid">
+                                    <option selected disabled>---Select Category---</option>
+                                    <%
+                                        PostDao postd = new PostDao(ConnectionProvider.getConnection());
+                                        ArrayList<Category> list = postd.getAllCategories();
+                                        for (Category c : list) {
+                                    %>
+                                    <option value="<%= c.getCid()%>"><%= c.getName()%></option>                                    
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input name ="pTitle" type="text" placeholder="Enter Post Title" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <textarea name ="pContent" class="form-control" style="height:200px;" placeholder="Enter Your Content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <textarea name ="pCode" class="form-control" style="height:200px;" placeholder="Enter Your Programming Code(If any)"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Select Pic:</label><br>
+                                <input name ="pic" type="file"/>
+
+                            </div>
+                            <div class="container text-center">
+                                <button class="btn btn-primary" type="submit">Post</button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--end of post modal-->
+
         <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="JS/MyJS.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                let editStatus = false;
-                $('#edit-profile-btn').click(function () {
-                    if (editStatus == false) {
-                        $('#profile-detail').hide();
-                        $('#profile-edit').show();
-                        editStatus = true;
-                        $(this).text("Back");
-                    } else {
-                        $('#profile-detail').show();
-                        $('#profile-edit').hide();
-                        editStatus = false;
-                        $(this).text("Edit");
-                    }
-                });
-
+            let editStatus = false;
+            $('#edit-profile-btn').click(function () {
+            if (editStatus == false) {
+            $('#profile-detail').hide();
+            $('#profile-edit').show();
+            editStatus = true;
+            $(this).text("Back");
+            } else {
+            $('#profile-detail').show();
+            $('#profile-edit').hide();
+            editStatus = false;
+            $(this).text("Edit");
+            }
             });
+            });
+        </script>
+        <!--now add post js-->
+        <script>
+            $(document).ready(function () {
+            $("#add-post-form").on("submit", function (event) {
+
+            event.preventDefault();
+            let form = new FormData(this);
+//                    Calling to server
+            $.ajax({
+                    url : "AddPostServlet",
+                    type : 'POST',
+                    data : form,
+                    success: function (data, textStatus, jqXHR) {
+//                                    success
+                    console.log(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+//                                    error
+                    },
+                    processData: false,
+                    contentType: false
+            })
+            }
+            )
+
+            })
 
         </script>
     </body>
