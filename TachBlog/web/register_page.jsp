@@ -43,9 +43,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="gender">Select Gender</label><br>
-                                    <input type="radio" id="gender" name="gender" value="male"> Male
-                                    <input type="radio" id="gender" name="gender" value="female"> Female
-                                    <input type="radio" id="gender" name="gender" value="other"> Other
+                                    <input type="radio" id="gender" name="gender" value="Male"> Male
+                                    <input type="radio" id="gender" name="gender" value="Female"> Female
+                                    <input type="radio" id="gender" name="gender" value="Other"> Other
                                 </div>
                                 <div class="form-group">
                                     <textarea class="form-control" name="about" id =""rows="5" placeholder="Enter Something about yourself"></textarea>

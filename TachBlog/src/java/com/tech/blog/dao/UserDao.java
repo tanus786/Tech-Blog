@@ -60,4 +60,25 @@ public class UserDao {
         
         return user;
     }
+    
+    public boolean UpdateUser(User user){
+        boolean f = false;
+        try {
+            String q = "update user set name = ? , email = ? , password = ?, about = ? , profile = ? where id = ?";
+            PreparedStatement pstmt = con.prepareStatement(q);
+            pstmt.setString(1,user.getName());
+            pstmt.setString(2,user.getEmail());
+            pstmt.setString(3,user.getPassword());
+            pstmt.setString(4,user.getAbout());
+            pstmt.setString(5,user.getProfile());
+            pstmt.setInt(6,user.getId());
+            pstmt.executeUpdate();
+            f = true;
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
 }

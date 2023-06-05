@@ -24,7 +24,7 @@
                     <h3 class="display-3">Welcome to TechBlog</h3>
                     <p>Welcome to Technical Blog, a world of Technology.
                         Write a series of blog posts outlining a step-by-step process for how to solve common challenges you see students facing each day. There is likely a whole new audience of people who have similar questions but are turning to Google for their answer. </p>
-                    <button class="btn btn-outline-dark btn-lg"><span class="fa fa-calendar-check-o"></span>  Start! Its Free</button>
+                    <a href="register_page.jsp" class="btn btn-outline-dark btn-lg"><span class="fa fa-calendar-check-o"></span>  Start! Its Free</a>
                     <a href="login_page.jsp" class="btn btn-outline-dark btn-lg"><span class="fa fa fa-user-plus"></span>  Login</a>
                 </div>
             </div>
