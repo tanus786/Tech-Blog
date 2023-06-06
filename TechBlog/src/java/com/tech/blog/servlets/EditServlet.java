@@ -72,9 +72,9 @@ public class EditServlet extends HttpServlet {
             UserDao userDao = new UserDao(ConnectionProvider.getConnection());
             boolean ans = userDao.UpdateUser(user);
             if (ans) {
-                String Path = request.getRealPath("/") + "pics" + File.separator + user.getProfile();
+                String Path = "D:"+ File.separator +"Tech-Blog"+ File.separator +"TechBlog"+ File.separator +"web"+ File.separator + "pics" + File.separator + user.getProfile();
 //                Delete code
-                String PathOldFile = request.getRealPath("/") + "pics" + File.separator + oldFile;
+                String PathOldFile = "D:"+ File.separator +"Tech-Blog"+ File.separator +"TechBlog"+ File.separator +"web"+ File.separator +  "pics" + File.separator + oldFile;
 //              
                    if(!oldFile.equals("Profile.jpg")){
                        Helper.deleteFile(PathOldFile);
