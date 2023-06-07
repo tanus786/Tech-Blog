@@ -21,7 +21,13 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="CSS/MyStyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+        <style>
+            body{
+                background: url(Image/bg2.jpg);
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        </style>
     </head>
     <body>
         <!--navbar-->
@@ -107,7 +113,7 @@
                     </div>
                     <div class="col-md-8">
                         <!--Post-->
-                        <div class="container text-center" id = "loader">
+                        <div class="container text-center text-white" id = "loader">
                             <i class="fa fa-refresh fa-4x fa-spin "></i>
                             <h3 class="mt-2">Loading...</h3>
                         </div>

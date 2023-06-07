@@ -13,7 +13,7 @@
     </head>
     <body>
         <div class="container text-center">
-            <<img src="Image/Error.png" alt="alt" class="img-fluid" width="300"/>
+            <img src="Image/Error.png" alt="alt" class="img-fluid" width="300"/>
             <h3 class="display-4">Sorry! Something Went Wrong...</h3>
             
             <a href="index.jsp" class="btn btn-lg btn-dark mt-3">Home</a>
