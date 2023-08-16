@@ -10,7 +10,7 @@ public class ConnectionProvider {
         try {
             if (con == null) {
                 Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://containers-us-west-85.railway.app:6796/railway", "root", "wE7aOifWJDLHOoXXIjNk");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/techblog", "root", "Tanu@123#!#");
 
             }
         } catch (Exception e) {
